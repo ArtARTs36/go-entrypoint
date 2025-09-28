@@ -1,0 +1,50 @@
+name: testing
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+jobs:
+  code-lint:
+    name: code-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
+        with:
+          go-version: stable
+
+      - name: Install Go dependencies
+        run: go mod download
+
+      - name: Run linter
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
+
+  unit-test:
+    name: unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
+        with:
+          go-version: stable
+
+      - name: Install Go dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test ./...

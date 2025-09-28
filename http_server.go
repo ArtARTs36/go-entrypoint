@@ -2,6 +2,7 @@ package entrypoint
 
 import (
 	"context"
+	"errors"
 	"net"
 	"net/http"
 )
@@ -14,7 +15,14 @@ func HTTPServer(name string, server *http.Server) Entrypoint {
 				return ctx
 			}
 
-			return server.ListenAndServe()
+			err := server.ListenAndServe()
+			if err != nil {
+				if errors.Is(err, http.ErrServerClosed) {
+					return nil
+				}
+				return err
+			}
+			return nil
 		},
 		Stop: func(ctx context.Context) error {
 			return server.Shutdown(ctx)
