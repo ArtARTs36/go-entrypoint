@@ -76,7 +76,7 @@ func (b *Runner) Run() error {
 
 		b.stop()
 	case err := <-wgChannel:
-		slog.Error("[entrypoint] received error", slog.Any("error", err))
+		slog.Error("[entrypoint] received error", slog.Any("err", err))
 		b.stop()
 	}
 
