@@ -19,6 +19,10 @@ type Runner struct {
 	shuttingDown atomic.Bool
 }
 
+func Run(es []Entrypoint, option ...RunnerOption) error {
+	return NewRunner(es, option...).Run()
+}
+
 func NewRunner(
 	es []Entrypoint,
 	option ...RunnerOption,
