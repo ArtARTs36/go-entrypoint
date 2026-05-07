@@ -11,7 +11,7 @@ func HTTPServer(name string, server *http.Server) Entrypoint {
 	return Entrypoint{
 		Name: name,
 		Run: func(ctx context.Context) error {
-			server.BaseContext = func(_ net.Listener) context.Context {
+			server.BaseContext = func(net.Listener) context.Context {
 				return ctx
 			}
 
@@ -23,9 +23,6 @@ func HTTPServer(name string, server *http.Server) Entrypoint {
 				return err
 			}
 			return nil
-		},
-		Stop: func(ctx context.Context) error {
-			return server.Shutdown(ctx)
 		},
 	}
 }

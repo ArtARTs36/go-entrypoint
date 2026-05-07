@@ -8,7 +8,4 @@ type Entrypoint struct {
 
 	// Required.
 	Run func(ctx context.Context) error
-
-	// Optional.
-	Stop func(ctx context.Context) error
 }
